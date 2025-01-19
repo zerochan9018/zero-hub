@@ -10,11 +10,10 @@ _G.AutoReel = false
 _G.AutoCast = false
 _G.AutoEquipRod = false
 _G.WalkWater = false
-
+_G.TeleportTotem = "None"
 local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 local humanoid = character:WaitForChild("Humanoid")
-
 local canJump = true
 local jumpCooldown = 0.01 -- Cooldown time in seconds
 local function onJumpRequest()
@@ -25,6 +24,31 @@ local function onJumpRequest()
 		canJump = true
 	end
 end
+local Totem = {
+	['Aurora Totem'] = 'Aurora Totem',
+	['SmokeScreen Totem'] = 'SmokeScreen Totem',
+	['Windset Totem'] = 'Windset Totem',
+	['Tempest Totem'] = 'Tempest Totem',
+	['Sundial Totem'] = 'Sundial Totem',
+	['Eclipse Totem'] = 'Eclipse Totem',
+	['Meteor Totem'] = 'Meteor Totem',
+	['Billizard Totem'] = 'Billizard Totem',
+	['Avalance Totem'] = 'Avalance Totem'
+}
+
+local TeleportedTotem = {
+	['Aurora Totem'] = Vector3.new(-1811, -136.928, -3282),
+	['SmokeScreen Totem'] = Vector3.new(2789, 140, -625),
+	['Windset Totem'] = Vector3.new(2849, 178.333, 2702),
+	['Tempest Totem'] = Vector3.new(35.3876, 132.5, 1943.35),
+	['Sundial Totem'] = Vector3.new(-1148, 135, -1075),
+	['Eclipse Totem'] = Vector3.new(5968, 274, 838),
+	['Meteor Totem'] = Vector3.new(-1948, 275.357, 230),
+	['Billizard Totem'] = Vector3.new(20145, 743, 5805),
+	['Avalance Totem'] = Vector3.new(19710, 467, 6052),
+
+	-- 2849, 178.333, 2702
+}
 
 function WalKWater()
 	for _,v in workspace:WaitForChild('zones'):WaitForChild('fishing'):GetChildren() do
@@ -171,7 +195,7 @@ Tab:AddToggle({
 	end    
 })
 
-
+--Vector3.new(6075.9, 194.98, 257.617)
 local Tab2 = Window:MakeTab({
 	Name = "Main",
 	Icon = "rbxassetid://4483345998",
@@ -202,14 +226,60 @@ Tab2:AddToggle({
 		AutoReel()
 	end    
 })
+local Tab3 = Window:MakeTab({
+	Name = "Teleport Shop",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
 
+Tab3:AddButton({
+	Name = "Teleport Bait Crate",
+	Callback = function()
+		Players.LocalPlayer.Character:FindFirstChild('HumanoidRootPart').Position = Vector3.new(6075.9, 194.98, 257.617)
+	end    
+})
+Tab3:AddButton({
+	Name = "Teleport Quality Bait Crate",
+	Callback = function()
+		Players.LocalPlayer.Character:FindFirstChild('HumanoidRootPart').Position = Vector3.new(-175.022, 143.141, 1929.85)
+	end    
+})
 
+Tab3:AddButton({
+	Name = "Teleport Glider",
+	Callback = function()
+		Players.LocalPlayer.Character:FindFirstChild('HumanoidRootPart').Position = Vector3.new(6076.65, 194.98, 263.922)
+	end    
+})
+Tab3:AddButton({
+	Name = "Teleport Skin Merchant",
+	Callback = function()
+		Players.LocalPlayer.Character:FindFirstChild('HumanoidRootPart').Position = Vector3.new(6033.99, 196.094, 267.357)
+	end    
+})
 
-
-
-
-
-
+Tab3:AddDropdown({
+	Name = "Teleport Totem",
+	Default = "None",
+	Options = {
+		'None',
+		'Aurora Totem',
+		'SmokeScreen Totem',
+		'Windset Totem',
+		'Tempest Totem',
+		'Sundial Totem',
+		'Eclipse Totem',
+		'Meteor Totem',
+		'Billizard Totem',
+		'Avalance Totem'
+	},
+	Callback = function(Value)
+		_G.TeleportTotem = Value
+		if Value ~='None' then
+			Players.LocalPlayer.Character.HumanoidRootPart.Position = TeleportedTotem[Value]
+		end
+	end    
+})
 
 
 
