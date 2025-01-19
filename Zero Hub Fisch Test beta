@@ -1,0 +1,211 @@
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+local Window = OrionLib:MakeWindow({Name = "Zero Hub : [Fisch]", HidePremium = false, SaveConfig = true, ConfigFolder = 'Zero Hub',IntroText = "Zero Hub",IntroIcon = 'rbxassetid://124264028520491'})
+local Humanoid:Humanoid = game.Players.LocalPlayer.Character.Humanoid
+--[[Values]]--
+_G.InfiniteJump = false
+_G.AutoReel = false
+_G.AutoCast = false
+_G.AutoEquipRod = false
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+local canJump = true
+local jumpCooldown = 0.01 -- Cooldown time in seconds
+local function onJumpRequest()
+	if _G.InfiniteJump ==true then
+		humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+		canJump = false
+		task.wait(jumpCooldown)
+		canJump = true
+	end
+end
+
+function AutoReel()
+	while wait() do
+		game:GetService("ReplicatedStorage").events.reelfinished:FireServer(100,false)
+		wait()
+		if _G.AutoReel == false then
+			break
+		end
+	end
+end
+
+function GetPlayerRod()
+	for _,Tool in Players.LocalPlayer.Character:GetChildren() do
+		if Tool:IsA('Tool') then
+			warn("Get Tool "..Tool.Name)
+			print(string.sub(Tool.Name,0,3))
+			print(string.sub(Tool.Name,tonumber(string.len(Tool.Name))-3,string.len(Tool.Name)))
+			if string.sub(Tool.Name,0,3) == "Rod" or string.sub(Tool.Name,tonumber(string.len(Tool.Name))-2,string.len(Tool.Name)) == "Rod" then
+				warn("Get Rod "..Tool.Name)
+				return Tool
+			else
+			return nil
+			end
+		end 
+	end
+end
+
+function GetPlayerRodInv()
+	for _,Tool in Players.LocalPlayer.Backpack:GetChildren() do
+		if Tool:IsA('Tool') then
+			warn("Get Tool "..Tool.Name)
+			print(string.sub(Tool.Name,0,3))
+			print(string.sub(Tool.Name,tonumber(string.len(Tool.Name))-3,string.len(Tool.Name)))
+			if string.sub(Tool.Name,0,3) == "Rod" or string.sub(Tool.Name,tonumber(string.len(Tool.Name))-2,string.len(Tool.Name)) == "Rod" then
+				warn("Get Rod "..Tool.Name)
+				return Tool
+			else
+				return nil
+			end
+		end 
+	end
+end
+
+
+function AutoCast()
+	if _G.AutoCast == true then
+		while wait() do
+
+			if GetPlayerRod() ~= nil then
+				local Rod = GetPlayerRod()
+				local args = {
+					[1] = 91.69999999999992,
+					[2] = 1
+				}
+				Rod.events.cast:FireServer(unpack(args))
+			else
+				OrionLib:MakeNotification({
+					Name = "Notification",
+					Content = "Equip Your Rod!",
+					Image = "rbxassetid://4483345998",
+					Time = 5
+				})
+			end
+			if _G.AutoCast == false then
+				break
+			end
+		end
+	end
+	
+end
+function AutoEquipRod()
+	if _G.AutoEquipRod == true then
+		while wait() do
+			if _G.AutoEquipRod == false then
+				break
+			end
+			if GetPlayerRodInv() ~= nil then
+				local Rod = GetPlayerRodInv()
+				ReplicatedStorage.packages.Net:FindFirstChild('RE/Backpack/Equip'):FireServer(Rod)
+			end
+		end
+	end
+end
+
+function JumpInf()
+	game:GetService("UserInputService").JumpRequest:Connect(onJumpRequest)
+end
+
+
+OrionLib:MakeNotification({
+	Name = "Notification",
+	Content = "Loading Zero Hub.. Fisch Game",
+	Image = "rbxassetid://4483345998",
+	Time = 5
+})
+
+
+local Tab = Window:MakeTab({
+	Name = "Home",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+Tab:AddLabel("Welcome "..game.Players.LocalPlayer.Name)
+Tab:AddLabel("Local Player Settings")
+
+Tab:AddSlider({
+	Name = " Player Walk Speed",
+	Min = 16,
+	Max = 500,
+	Default = 16,
+	Color = Color3.fromRGB(0, 170, 255),
+	Increment = 1,
+	ValueName = "WalkSpeed",
+	Callback = function(Value)
+		Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
+	end 
+})
+
+
+
+Tab:AddToggle({
+	Name = "Infinite Jump",
+	Default = false,
+	Callback = function(Value)
+		_G.InfiniteJump = Value
+		JumpInf()
+	end    
+})
+
+
+local Tab2 = Window:MakeTab({
+	Name = "Main",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+Tab2:AddLabel("Fishing")
+Tab2:AddToggle({
+	Name = "Auto Equip Rod",
+	Default = false,
+	Callback = function(Value)
+		_G.AutoEquipRod = Value
+		AutoEquipRod()
+	end    
+})
+Tab2:AddToggle({
+	Name = "Auto Cast",
+	Default = false,
+	Callback = function(Value)
+		_G.AutoCast = Value
+		AutoCast()
+	end    
+})
+Tab2:AddToggle({
+	Name = "Auto Reel",
+	Default = false,
+	Callback = function(Value)
+		_G.AutoReel = Value
+		AutoReel()
+	end    
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OrionLib:Init()
