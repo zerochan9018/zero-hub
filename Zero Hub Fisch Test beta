@@ -1,6 +1,5 @@
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-print('load')
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 local Window = OrionLib:MakeWindow({Name = "Zero Hub : [Fisch]", HidePremium = false, SaveConfig = true, ConfigFolder = 'Zero Hub',IntroText = "Zero Hub",IntroIcon = 'rbxassetid://124264028520491'})
 local Humanoid:Humanoid = game.Players.LocalPlayer.Character.Humanoid
@@ -24,6 +23,24 @@ local function onJumpRequest()
 		canJump = true
 	end
 end
+
+local Island = {
+	['Ancient'] = Vector3.new(6056.25, 195.28, 278.553),
+	['Statue'] = Vector3.new(73.1066, 141.93, -1028.04),
+	['MazeDepthEnd'] = Vector3.new(1683.63, -896.821, 1440.55),
+	['IcePuzzle'] = Vector3.new(19232.7, 395.872, 6010.35),
+	['Desolate'] = Vector3.new(-1654.97, -213.521, -2845.95),
+	['Altar'] = Vector3.new(1296.32, -808.552, -298.938),
+	['North'] = Vector3.new(19527.6, 129.735, 5294.47),
+	['DepthObby'] = Vector3.new(66.9927, -701.881, 1230.85),
+	['Deep'] = Vector3.new(-1510.89, -237.695, -2852.91),
+	['Vertigo'] = Vector3.new(-112.007, -492.901, 1040.33),
+	['Brine'] = Vector3.new(-1794.11, -145.85, -3302.92),
+	['Swamp'] = Vector3.new(2501.49, 127.758, -720.699),
+	['TheDepth'] = Vector3.new(568.153, -701.881, 1230.85),
+	['SnowCap'] = Vector3.new(2654.15, 140.65, 2521.6),
+}
+
 local Totem = {
 	['Aurora Totem'] = 'Aurora Totem',
 	['SmokeScreen Totem'] = 'SmokeScreen Totem',
@@ -281,24 +298,6 @@ Tab3:AddDropdown({
 	end    
 })
 
-
-local Island = {
-	['Ancient'] = Vector3.new(6056.25, 195.28, 278.553),
-	['Statue'] = Vector3.new(73.1066, 141.93, -1028.04),
-	['MazeDepthEnd'] = Vector3.new(1683.63, -896.821, 1440.55),
-	['IcePuzzle'] = Vector3.new(19232.7, 395.872, 6010.35),
-	['Desolate'] = Vector3.new(-1654.97, -213.521, -2845.95),
-	['Altar'] = Vector3.new(1296.32, -808.552, -298.938),
-	['North'] = Vector3.new(19527.6, 129.735, 5294.47),
-	['DepthObby'] = Vector3.new(66.9927, -701.881, 1230.85),
-	['Deep'] = Vector3.new(-1510.89, -237.695, -2852.91),
-	['Vertigo'] = Vector3.new(-112.007, -492.901, 1040.33),
-	['Brine'] = Vector3.new(-1794.11, -145.85, -3302.92),
-	['Swamp'] = Vector3.new(2501.49, 127.758, -720.699),
-	['TheDepth'] = Vector3.new(568.153, -701.881, 1230.85),
-	['SnowCap'] = Vector3.new(2654.15, 140.65, 2521.6),
-
-}
 
 Tab3:AddDropdown({
 	Name = "Teleport Island",
