@@ -9,6 +9,8 @@ _G.InfiniteJump = false
 _G.AutoReel = false
 _G.AutoCast = false
 _G.AutoEquipRod = false
+_G.WalkWater = false
+
 local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 local humanoid = character:WaitForChild("Humanoid")
@@ -21,6 +23,14 @@ local function onJumpRequest()
 		canJump = false
 		task.wait(jumpCooldown)
 		canJump = true
+	end
+end
+
+function WalKWater()
+	for _,v in workspace:WaitForChild('zones'):WaitForChild('fishing'):GetChildren() do
+		if v:IsA('BasePart') then
+			v.CanCollide = _G.WalkWater
+		end
 	end
 end
 
@@ -149,6 +159,15 @@ Tab:AddToggle({
 	Callback = function(Value)
 		_G.InfiniteJump = Value
 		JumpInf()
+	end    
+})
+
+Tab:AddToggle({
+	Name = "Walk On Water",
+	Default = false,
+	Callback = function(Value)
+		_G.WalkWater = Value
+		WalKWater()
 	end    
 })
 
